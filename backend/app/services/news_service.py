@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 RSS_FEEDS = {
     "매경": "https://www.mk.co.kr/rss/30100041/",
     "한경": "https://www.hankyung.com/feed/stock",
-    "WSJ_Markets": "https://feeds.a]"]",
+    "WSJ_Markets": "https://feeds.content.dowjones.io/public/rss/mw_realtimeheadlines",
     "Reuters": "https://www.reutersagency.com/feed/?taxonomy=best-sectors&post_type=best",
 }
 
