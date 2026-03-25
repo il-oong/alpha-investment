@@ -1,15 +1,33 @@
+import logging
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.config.settings import get_settings
 from app.routers import analysis, briefing, alerts, portfolio, agents, trading
+from app.services.scheduler_service import start_scheduler, stop_scheduler
 
+logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(name)s] %(levelname)s: %(message)s")
 settings = get_settings()
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    logging.info("ALPHA Investment Platform 시작")
+    start_scheduler()
+    yield
+    # Shutdown
+    stop_scheduler()
+    logging.info("ALPHA Investment Platform 종료")
+
 
 app = FastAPI(
     title=settings.app_name,
     version="1.0.0",
     description="JKP 페르소나 기반 7개 AI 에이전트 통합 투자 분석 시스템",
+    lifespan=lifespan,
 )
 
 app.add_middleware(
