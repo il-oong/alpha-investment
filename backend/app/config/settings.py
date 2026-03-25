@@ -26,9 +26,9 @@ class Settings(BaseSettings):
     # FRED API
     fred_api_key: str = ""
 
-    # Kakao Alert
-    kakao_rest_api_key: str = ""
-    kakao_redirect_uri: str = ""
+    # Telegram Bot
+    telegram_bot_token: str = ""
+    telegram_chat_id: str = ""
 
     # Trading Safety
     daily_trade_limit: int = 5_000_000  # 일일 최대 거래 한도 (원)

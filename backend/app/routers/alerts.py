@@ -2,7 +2,7 @@
 from fastapi import APIRouter, Query
 
 from app.services import supabase_service
-from app.services.kakao_service import ALERT_LEVELS
+from app.services.telegram_service import ALERT_LEVELS
 
 router = APIRouter()
 

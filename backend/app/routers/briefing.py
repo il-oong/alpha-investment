@@ -4,7 +4,7 @@ from fastapi import APIRouter
 from app.agents.macro_sentinel import MacroSentinel
 from app.agents.news_scanner import NewsScanner
 from app.agents.us_sentinel import USSentinel
-from app.services import kakao_service, gemini_service
+from app.services import telegram_service, gemini_service
 
 router = APIRouter()
 macro = MacroSentinel()
@@ -23,7 +23,7 @@ async def morning_briefing():
         system_instruction="JKP 오전 전략 브리핑을 5줄 이내로 작성하세요. 핵심만 간결하게.",
     )
 
-    await kakao_service.send_daily_briefing("morning", summary)
+    await telegram_service.send_daily_briefing("morning", summary)
     return {"briefing": summary, "macro": macro_result, "news": news_result}
 
 
@@ -32,7 +32,7 @@ async def us_close_briefing():
     """06:00 미장 마감 브리핑"""
     us_result = await us.analyze()
     summary = us_result.get("summary", "")
-    await kakao_service.send_daily_briefing("us_close", summary)
+    await telegram_service.send_daily_briefing("us_close", summary)
     return {"briefing": summary, "us_market": us_result}
 
 
@@ -41,7 +41,7 @@ async def noon_briefing():
     """12:00 점심 뉴스 브리핑"""
     news_result = await news.analyze()
     summary = news_result.get("summary", "")
-    await kakao_service.send_daily_briefing("noon", summary)
+    await telegram_service.send_daily_briefing("noon", summary)
     return {"briefing": summary, "news": news_result}
 
 
@@ -56,7 +56,7 @@ async def market_close_briefing():
         prompt="장마감 수급을 정리해주세요.",
         system_instruction="장마감 수급 브리핑을 5줄로 작성하세요.",
     )
-    await kakao_service.send_daily_briefing("market_close", summary)
+    await telegram_service.send_daily_briefing("market_close", summary)
     return {"briefing": summary}
 
 
@@ -65,5 +65,5 @@ async def us_open_briefing():
     """23:30 미장 시작 감시"""
     us_result = await us.analyze()
     summary = us_result.get("summary", "")
-    await kakao_service.send_daily_briefing("us_open", summary)
+    await telegram_service.send_daily_briefing("us_open", summary)
     return {"briefing": summary, "us_market": us_result}
